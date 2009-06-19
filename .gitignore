@@ -1,1 +1,9 @@
+log/*.log
+tmp/**/[a-zA-Z]*
+tmp/restart.txt
+db/*.sqlite3
+*.~1~
+*.swp
+doc/api
+doc/app
 *.log

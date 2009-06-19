@@ -40,7 +40,11 @@ module Twilio
         params = body || {}
       end
       params.each do |k,v|
-        send(k.to_s+"=",v) if respond_to? k.to_s+"="
+        if respond_to? k.to_s+"="
+          send(k.to_s+"=",v)
+        else
+          raise ArgumentError, "Invalid parameter (#{k}) for verb (#{self.class})"
+        end
       end
     end
 
