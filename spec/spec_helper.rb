@@ -7,4 +7,4 @@ require 'spec'
 require 'spec/autorun'
 #require 'spec/rails'
 
-require 'lib/twilio'
+require File.join(File.dirname(__FILE__),'..','lib','twilio')
