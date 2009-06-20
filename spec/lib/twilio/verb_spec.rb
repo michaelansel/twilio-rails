@@ -35,9 +35,13 @@ describe "a TwiML verb with children", :shared => true do
     @verb.body_required?.should == false
   end
 
-  it "should be invalid with no children" if described_class.children_required?
+  it "should be invalid with no children" do
+    pending("Need to implement TwiML validation") { not @verb.responds_to? "valid" }
+  end if described_class.children_required?
 
-  it "should be invalid with a body" if described_class.children_required? or described_class.body_prohibited?
+  it "should be invalid with a body" do
+    pending("Need to implement TwiML validation") { not @verb.responds_to? "valid" }
+  end if described_class.children_required? or described_class.body_prohibited?
 
   it "should produce valid XML with no children" do
     @verb.should have(0).children
@@ -80,7 +84,9 @@ end
 
 describe "a TwiML verb with a body", :shared => true do
   it_should_behave_like "a TwiML verb with no children"
-  it "should be invalid with no body" if described_class.body_required?
+  it "should be invalid with no body" do
+    pending("Need to implement TwiML validation") { not @verb.responds_to? "valid" }
+  end if described_class.body_required?
 
   it "should produce valid XML with no body" do
     @verb.body = nil
@@ -100,6 +106,10 @@ describe "a TwiML verb with attributes", :shared => true do
   it "should produce valid XML with attributes"
 
   it "should have attributes"
+
+  it "should be valid with attributes" do
+    pending("Need to implement TwiML validation") { not @verb.responds_to? "valid" }
+  end
 end
 
 
@@ -110,12 +120,16 @@ describe "a TwiML verb with no attributes", :shared => true do
 
   it "should produce valid XML with no attributes"
 
-  it "should be invalid with attributes"
+  it "should be invalid with attributes" do
+    pending("Need to implement TwiML validation") { not @verb.responds_to? "valid" }
+  end
 end
 
 
 describe "a TwiML verb with no children", :shared => true do
-  it "should be invalid with children" if described_class.children_prohibited?
+  it "should be invalid with children" do
+    pending("Need to implement TwiML validation") { not @verb.responds_to? "valid" }
+  end if described_class.children_prohibited?
 
   it "should produce valid XML with no children" do
     @verb.to_xml.should eql("<#{@verb.verb_name}>#{@verb.body unless @verb.body_prohibited?}</#{@verb.verb_name}>")
