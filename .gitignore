@@ -3,7 +3,7 @@ tmp/**/[a-zA-Z]*
 tmp/restart.txt
 db/*.sqlite3
 *.~1~
-*.swp
+.*.swp
 doc/api
 doc/app
 *.log
