@@ -17,8 +17,24 @@ end
 
 ############## Verb Shared Groups ##############
 
+describe "a TwiML verb", :shared => true do
+  before(:each) do
+    @verb = described_class.new(verb_params(described_class.to_s.split(/::/)[-1]))
+  end
+
+  it "should produce valid XML"
+end
+
 
 describe "a TwiML verb with children", :shared => true do
+  before(:each) do
+    @verb.body = nil if @verb.body_optional?
+  end
+
+  it "should not require a body" do
+    @verb.body_required?.should == false
+  end
+
   it "should be invalid with no children" if described_class.children_required?
 
   it "should be invalid with a body" if described_class.children_required? or described_class.body_prohibited?
@@ -67,8 +83,9 @@ describe "a TwiML verb with a body", :shared => true do
   it "should be invalid with no body" if described_class.body_required?
 
   it "should produce valid XML with no body" do
+    @verb.body = nil
     @verb.to_xml.should eql("<#{@verb.verb_name}></#{@verb.verb_name}>")
-  end
+  end unless described_class.body_required?
 
   it "should produce valid XML with a body" do
     @verb.body = "Hello, I <3 Ruby!"
@@ -101,7 +118,7 @@ describe "a TwiML verb with no children", :shared => true do
   it "should be invalid with children" if described_class.children_prohibited?
 
   it "should produce valid XML with no children" do
-    @verb.to_xml.should eql("<#{@verb.verb_name}></#{@verb.verb_name}>")
+    @verb.to_xml.should eql("<#{@verb.verb_name}>#{@verb.body unless @verb.body_prohibited?}</#{@verb.verb_name}>")
   end
 end
 
@@ -110,92 +127,62 @@ end
 
 
 describe Twilio::Say do
-  before(:each) do
-    @verb = Twilio::Say.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with attributes"
   it_should_behave_like "a TwiML verb with a body"
 end
 
 describe Twilio::Play do
-  before(:each) do
-    @verb = Twilio::Play.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with attributes"
   it_should_behave_like "a TwiML verb with a body"
 end
 
 describe Twilio::Gather do
-  before(:each) do
-    @verb = Twilio::Gather.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with attributes"
   it_should_behave_like "a TwiML verb with children"
 end
 
 describe Twilio::Record do
-  before(:each) do
-    @verb = Twilio::Record.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with attributes"
   it_should_behave_like "a TwiML verb with no children"
 end
 
 describe Twilio::Dial do
-  before(:each) do
-    @verb = Twilio::Dial.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with attributes"
   it_should_behave_like "a TwiML verb with children"
   it_should_behave_like "a TwiML verb with a body"
 end
 
 describe Twilio::Redirect do
-  before(:each) do
-    @verb = Twilio::Redirect.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with attributes"
   it_should_behave_like "a TwiML verb with a body"
 end
 
 describe Twilio::Pause do
-  before(:each) do
-    @verb = Twilio::Pause.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with attributes"
   it_should_behave_like "a TwiML verb with no children"
 end
 
 describe Twilio::Hangup do
-  before(:each) do
-    @verb = Twilio::Hangup.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with no attributes"
   it_should_behave_like "a TwiML verb with no children"
 end
 
 describe Twilio::Number do
-  before(:each) do
-    @verb = Twilio::Number.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with attributes"
   it_should_behave_like "a TwiML verb with a body"
 end
 
 describe Twilio::Response do
-  before(:each) do
-    @verb = Twilio::Response.new
-  end
-
+  it_should_behave_like "a TwiML verb"
   it_should_behave_like "a TwiML verb with no attributes"
   it_should_behave_like "a TwiML verb with children"
 end
